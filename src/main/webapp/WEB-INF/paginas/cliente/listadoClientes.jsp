@@ -56,9 +56,11 @@
                     </div>
                 </div>
             </div>
-
-
             <!--Fin Tarjetas para los totales-->
         </div>
     </div>
 </section>
+                        
+
+<!-- Agregar cliente MODAL -->
+<jsp:include page="/WEB-INF/paginas/cliente/agregarCliente.jsp"/>
