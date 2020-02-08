@@ -11,19 +11,19 @@
         <title>Control de Clientes</title>
     </head>
     <body>
-        <!-- Cabecero-->
+        <!-- Header -Cabecero-->
         <jsp:include page="WEB-INF/paginas/comunes/cabecero.jsp"/>
         
         <!-- Botones de Navegación-->
         <jsp:include page="WEB-INF/paginas/comunes/botonesNavegacion.jsp"/>
         
+        <!-- Listado Clientes-->
+        <jsp:include page="WEB-INF/paginas/cliente/listadoClientes.jsp"/>
         
-        <ul>
-            <c:forEach var="cliente" items="${clientes}">
-                <li>${cliente.idCliente} ${cliente.nombre} ${cliente.apellido} ${cliente.saldo}</li>
-                </c:forEach>
-        </ul>
-
+        
+        <!-- Pie de Pagina - Footer-->
+        <jsp:include page="WEB-INF/paginas/comunes/piePagina.jsp"/>
+        
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

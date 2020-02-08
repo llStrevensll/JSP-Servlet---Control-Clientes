@@ -1,0 +1,10 @@
+<footer id="pie-pagina" class="bg-warning text-dark mt-5 p-5">
+
+    <div class="container">
+        <div class="col">
+            <p class="font-weight-bold lead text-center">
+                Copyright &copy; llStrevensll
+            </p>
+        </div>           
+    </div>
+</footer>
