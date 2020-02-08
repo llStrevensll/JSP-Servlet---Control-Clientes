@@ -17,6 +17,17 @@ public class ServletControlador extends HttpServlet{
         List<Cliente> clientes = new ClienteDaoJDBC().listar();
         System.out.println("clientes = " + clientes);
         request.setAttribute("clientes", clientes);//lista clientes que se usara en clientes.jsp
+        request.setAttribute("totalClientes", clientes.size());//tamaño de la lista
+        request.setAttribute("saldoTotal", this.calcularSaldoTotal(clientes));//funcion saldoTotal
         request.getRequestDispatcher("clientes.jsp").forward(request, response);
+    }
+    
+    
+    private double calcularSaldoTotal(List<Cliente> clientes){
+        double saldoTotal = 0;
+        for(Cliente cliente: clientes){
+            saldoTotal += cliente.getSaldo();
+        }
+        return saldoTotal;
     }
 }
