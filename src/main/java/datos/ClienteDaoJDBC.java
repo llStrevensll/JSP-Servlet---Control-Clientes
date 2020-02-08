@@ -1,63 +1,142 @@
-
 package datos;
-
 
 import dominio.Cliente;
 import java.sql.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 public class ClienteDaoJDBC {
+
     private static final String SQL_SELECT = "SELECT id_cliente, nombre, apellido, email, telefono, saldo "
             + "FROM cliente";
-    
+
     private static final String SQL_SELECT_BY_ID = "SELECT id_cliente, nombre, apellido, email, telefono, saldo "
             + "FROM cliente WHERE id_cliente= ?";
-    
+
     private static final String SQL_INSERT = "INSERT INTO cliente(nombre, apellido, email, telefono, saldo) "
             + " VALUES(?, ? ,? ,? ,?)";
-    
+
     private static final String SQL_UPDATE = "PDATE cliente "
-            + "SET nombre=?, apellido=?, email??, telefono=?, saldo=?, WHERE id_cliente=?";
-    
+            + "SET nombre=?, apellido=?, email=?, telefono=?, saldo=?, WHERE id_cliente=?";
+
     private static final String SQL_DELETE = "DELETE FROM cliente WHERE id_cliente = ?";
-    
-    //Listar
-    public List<Cliente> listar(){
+
+    //Listar todos los clientes
+    public List<Cliente> listar() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Cliente cliente = null;
-        
+
         //Arreglo de clientes
         List<Cliente> clientes = new ArrayList<>();
         try {
-            conn =  Conexion.getConnection();
+            conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_SELECT);
             rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int idCliente = rs.getInt("id_cliente");
                 String nombre = rs.getString("nombre");
                 String apellido = rs.getString("apellido");
-                String email =  rs.getString("email");
-                String telefono =  rs.getString("telefono");
-                double saldo =  rs.getDouble("saldo");
-                
+                String email = rs.getString("email");
+                String telefono = rs.getString("telefono");
+                double saldo = rs.getDouble("saldo");
+
                 //Constructor del Cliente
                 cliente = new Cliente(idCliente, nombre, apellido, email, telefono, saldo);
                 clientes.add(cliente);//Adicionar cliente a la lista
             }
         } catch (SQLException ex) {
-           ex.printStackTrace(System.out);
-        }
-        finally {
+            ex.printStackTrace(System.out);
+        } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
             Conexion.close(conn);
         }
         return clientes;
+
+    }
+
+    //Buscar cliente por ID
+    public Cliente encontrar(Cliente cliente) {//se usara el id_cliente
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
         
+        try {
+            conn = Conexion.getConnection();
+
+            stmt = conn.prepareStatement(SQL_SELECT_BY_ID);
+            stmt.setInt(1, cliente.getIdCliente());
+
+            rs = stmt.executeQuery();
+            rs.absolute(1);//nos posicionamos en el primer registro
+
+      
+            String nombre = rs.getString("nombre");
+            String apellido = rs.getString("apellido");
+            String email = rs.getString("email");
+            String telefono = rs.getString("telefono");
+            double saldo = rs.getDouble("saldo");
+
+            cliente.setNombre(nombre);
+            cliente.setApellido(apellido);
+            cliente.setEmail(email);
+            cliente.setTelefono(telefono);
+            cliente.setSaldo(saldo);
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return cliente;
+    }
+    
+    //Insertar Cliente
+    public int insertar(Cliente cliente){
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        int rows = 0;//Saber cuantos registros se han modificado
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_INSERT);
+            stmt.setString(1, cliente.getNombre());
+            stmt.setString(2, cliente.getApellido());
+            stmt.setString(3, cliente.getEmail());
+            stmt.setString(4, cliente.getTelefono());
+            stmt.setDouble(5, cliente.getSaldo());
+            
+            rows = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return rows;
+    }
+    
+    //Actualizar Cliente
+    public int actualizar(Cliente cliente){
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        int rows = 0;//Saber cuantos registros se han modificado
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_DELETE);
+            stmt.setInt(1, cliente.getIdCliente());
+            
+            rows = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return rows;
     }
 }
