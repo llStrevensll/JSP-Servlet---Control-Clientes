@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <label for="nombre">Saldo</label>
-                        <input type="text" class="form-control" name="saldo" required>
+                        <input type="text" class="form-control" name="saldo" step="any" required >
                     </div> 
                 </div>
                 <div class="modal-footer">

@@ -12,17 +12,17 @@
     </head>
     <body>
         <!-- Header -Cabecero-->
-        <jsp:include page="WEB-INF/paginas/comunes/cabecero.jsp"/>
+        <jsp:include page="/WEB-INF/paginas/comunes/cabecero.jsp"/>
         
         <!-- Botones de Navegación-->
-        <jsp:include page="WEB-INF/paginas/comunes/botonesNavegacion.jsp"/>
+        <jsp:include page="/WEB-INF/paginas/comunes/botonesNavegacion.jsp"/>
         
         <!-- Listado Clientes-->
-        <jsp:include page="WEB-INF/paginas/cliente/listadoClientes.jsp"/>
+        <jsp:include page="/WEB-INF/paginas/cliente/listadoClientes.jsp"/>
         
         
         <!-- Pie de Pagina - Footer-->
-        <jsp:include page="WEB-INF/paginas/comunes/piePagina.jsp"/>
+        <jsp:include page="/WEB-INF/paginas/comunes/piePagina.jsp"/>
         
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
