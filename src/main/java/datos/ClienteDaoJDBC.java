@@ -15,8 +15,8 @@ public class ClienteDaoJDBC {
     private static final String SQL_INSERT = "INSERT INTO cliente(nombre, apellido, email, telefono, saldo) "
             + " VALUES(?, ? ,? ,? ,?)";
 
-    private static final String SQL_UPDATE = "PDATE cliente "
-            + "SET nombre=?, apellido=?, email=?, telefono=?, saldo=?, WHERE id_cliente=?";
+    private static final String SQL_UPDATE = "UPDATE cliente "
+            + " SET nombre=?, apellido=?, email=?, telefono=?, saldo=? WHERE id_cliente=?";
 
     private static final String SQL_DELETE = "DELETE FROM cliente WHERE id_cliente = ?";
 
@@ -120,16 +120,41 @@ public class ClienteDaoJDBC {
     }
     
     //Actualizar Cliente
-    public int actualizar(Cliente cliente){
+    public int actualizar(Cliente cliente) {
+        System.out.println("Entre a actualizar");
         Connection conn = null;
         PreparedStatement stmt = null;
-        int rows = 0;//Saber cuantos registros se han modificado
+        int rows = 0;
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_UPDATE);
+            stmt.setString(1, cliente.getNombre());
+            stmt.setString(2, cliente.getApellido());
+            stmt.setString(3, cliente.getEmail());
+            stmt.setString(4, cliente.getTelefono());
+            stmt.setDouble(5, cliente.getSaldo());
+            stmt.setInt(6, cliente.getIdCliente());
 
+            rows = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return rows;
+    }
+    
+    //Elminar Cliente
+    public int eliminar(Cliente cliente) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        int rows = 0;
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_DELETE);
             stmt.setInt(1, cliente.getIdCliente());
-            
+
             rows = stmt.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);

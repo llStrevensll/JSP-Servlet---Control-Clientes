@@ -72,6 +72,9 @@ public class ServletControlador extends HttpServlet{
                 case "insertar":
                     this.insertarCliente(request, response);
                     break;
+                 case "modificar":
+                    this.modificarCliente(request, response);
+                    break;
                 default:
                     this.accionDefault(request, response);
             }
@@ -101,6 +104,32 @@ public class ServletControlador extends HttpServlet{
         
         //Insertamos el nuevo objeto en la base de datos
         int registrosModificados = new ClienteDaoJDBC().insertar(cliente);
+        System.out.println("registrosModificados = " + registrosModificados);
+        
+        //Redirigimos hacia accion por default
+        this.accionDefault(request, response);
+    }
+     
+     
+     private void modificarCliente(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //recuperamos los valores del formulario editarCliente
+        int idCliente = Integer.parseInt(request.getParameter("idCliente"));//El id no esta en el formulario sino en el url -> pero no se vera por que se envio con post
+        String nombre = request.getParameter("nombre");
+        String apellido = request.getParameter("apellido");
+        String email = request.getParameter("email");
+        String telefono = request.getParameter("telefono");
+        double saldo = 0;
+        String saldoString = request.getParameter("saldo");
+        if(saldoString != null && !"".equals(saldoString)){
+            saldo = Double.parseDouble(saldoString);
+        }
+        
+        //Creamos el objeto de cliente (modelo)
+        Cliente cliente = new Cliente(idCliente, nombre, apellido, email, telefono, saldo);
+        
+        //Insertamos el nuevo objeto en la base de datos
+        int registrosModificados = new ClienteDaoJDBC().actualizar(cliente);
         System.out.println("registrosModificados = " + registrosModificados);
         
         //Redirigimos hacia accion por default
