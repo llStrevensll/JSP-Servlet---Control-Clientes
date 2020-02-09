@@ -23,6 +23,9 @@ public class ServletControlador extends HttpServlet{
                 case "editar":
                     this.editarCliente(request, response);
                     break;
+                case "eliminar":
+                    this.eliminarCliente(request, response);
+                    break;
                 default:
                     this.accionDefault(request, response);
             }
@@ -130,6 +133,22 @@ public class ServletControlador extends HttpServlet{
         
         //Insertamos el nuevo objeto en la base de datos
         int registrosModificados = new ClienteDaoJDBC().actualizar(cliente);
+        System.out.println("registrosModificados = " + registrosModificados);
+        
+        //Redirigimos hacia accion por default
+        this.accionDefault(request, response);
+    }
+     
+     private void eliminarCliente(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //recuperamos los valores del formulario editarCliente
+        int idCliente = Integer.parseInt(request.getParameter("idCliente"));//El id no esta en el formulario sino en el url -> pero no se vera por que se envio con post
+
+        //Creamos el objeto de cliente (modelo)
+        Cliente cliente = new Cliente(idCliente);
+        
+        //Eliminamos el nuevo objeto en la base de datos
+        int registrosModificados = new ClienteDaoJDBC().eliminar(cliente);
         System.out.println("registrosModificados = " + registrosModificados);
         
         //Redirigimos hacia accion por default
